@@ -171,15 +171,6 @@ const Order = () => {
         },
       });
       console.log("1. " + response.status);
-      if (response.status === 200) {
-        swal({
-          text: "Produkt dodany do listy!",
-          icon: "success",
-        }).then(function() {
-          window.location.reload()
-        });;
-
-      }
     } catch (error) {
       if (error) {
         swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
@@ -307,7 +298,7 @@ const Order = () => {
                          onClick={() =>{
                            if(totalAssigment > 0){
                              if(name === "" || lastname === "" || phonenumber === ""){
-                               swal({ text: "Podaj wszystkie dane kupującego", icon: "warning" })
+                               swal({ text: "Please enter all information about customer", icon: "warning" })
                              }
                              else{
                                onSubmit()

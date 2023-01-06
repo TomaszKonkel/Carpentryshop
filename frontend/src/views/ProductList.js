@@ -87,7 +87,7 @@ const ProductList = () => {
 
         <CCol md={12}>
           <CInputGroup className="has-validation">
-            <CFormInput placeholder="Wyszukaj produkt"
+            <CFormInput placeholder="Search"
                         onChange={e =>{
                           setSearch(e.target.value)
                         }}></CFormInput>
@@ -195,8 +195,8 @@ const ProductList = () => {
                                                      onClick={e => {
                                                        console.log(e.target.value);
                                                        swal({
-                                                         title: "Jesteś pewien?",
-                                                         text: "Potwierdzenie oznacza usunięcie klienta",
+                                                         title: "Are you sure?",
+                                                         text: "Confirmation means disabled item",
                                                          icon: "warning",
                                                          buttons: true,
                                                          dangerMode: true,
@@ -204,7 +204,7 @@ const ProductList = () => {
                                                          .then((willDelete) => {
                                                            if (willDelete) {
                                                              doDelete(e.target.value)
-                                                             swal("Unit has been deleted", {
+                                                             swal("Item has been disabled", {
                                                                icon: "success",
                                                              }).then(function () {
                                                                window.location.reload();
@@ -225,8 +225,8 @@ const ProductList = () => {
                                                      onClick={e => {
                                                        console.log(e.target.value);
                                                        swal({
-                                                         title: "Jesteś pewien?",
-                                                         text: "Potwierdzenie oznacza usunięcie klienta",
+                                                         title: "Are you sure?",
+                                                         text: "Confirmation means Enabled item",
                                                          icon: "warning",
                                                          buttons: true,
                                                          dangerMode: true,
@@ -234,7 +234,7 @@ const ProductList = () => {
                                                          .then((willDelete) => {
                                                            if (willDelete) {
                                                              doDelete(e.target.value)
-                                                             swal("Unit has been deleted", {
+                                                             swal("Item has been enabled", {
                                                                icon: "success",
                                                              }).then(function () {
                                                                window.location.reload();

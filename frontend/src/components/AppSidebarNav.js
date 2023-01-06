@@ -11,11 +11,6 @@ export const AppSidebarNav = ({ items }) => {
       <>
         {icon && icon}
         {name && name}
-        {badge && (
-          <CBadge color={badge.color} className="ms-auto">
-            {badge.text}
-          </CBadge>
-        )}
       </>
     )
   }

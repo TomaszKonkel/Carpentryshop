@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Form, Col, Card  } from "react-bootstrap";
-import Table from 'react-bootstrap/Table';
+
 import axios from "axios";
 import swal from "sweetalert";
 import { useLocation } from "react-router-dom";
 import CIcon from "@coreui/icons-react";
-import {cilDelete, cilTrash, cilX} from "@coreui/icons";
+import { cilX} from "@coreui/icons";
 import {CButton} from "@coreui/react";
 
 
@@ -27,10 +27,6 @@ const JobDetail = () => {
   const [ajdi, setAjdi] = useState(0);
 
   const [which, setWhich] = useState(0);
-
-
-
-
 
 
 
@@ -86,7 +82,7 @@ const JobDetail = () => {
       let fetchedProducts = await response.json();
       JSON.parse(JSON.stringify(fetchedProducts))
       setProducts(fetchedProducts)
-      // setLoading(false);
+
       console.log("elo" + products);
     } catch (err) {
       console.log(err);
@@ -191,7 +187,7 @@ const JobDetail = () => {
     }
   }
 
-  const onSubmitConstant = (ajdi, item, assigment, operation, quan) => {
+  const onSubmit = (ajdi, item, assigment, operation, quan) => {
 
     const found = products.find(obj => {
       return obj.id == ajdi;
@@ -314,7 +310,7 @@ const JobDetail = () => {
                                            console.log(e.target.value);
                                            swal({
                                              title: "Jesteś pewien?",
-                                             text: "Potwierdzenie oznacza usunięcie klienta",
+                                             text: "Confirmation means delete resource",
                                              icon: "warning",
                                              buttons: true,
                                              dangerMode: true,
@@ -322,11 +318,9 @@ const JobDetail = () => {
                                              .then((willDelete) => {
                                                if (willDelete) {
                                                  onDelete(todo.id, re.id, re.product.id, "plus", re.quantityResources )
-                                                 swal("Unit has been deleted", {
+                                                 swal("resource has been deleted", {
                                                    icon: "success",
-                                                 }).then(function () {
-                                                   window.location.reload();
-                                                 });;;
+                                                 })
                                                }
                                              });
                                          }}
@@ -357,7 +351,7 @@ const JobDetail = () => {
                                  onClick={ e => {
                                    if (ajdi == 0){
                                      swal({
-                                       title: "Wybierz resource",
+                                       title: "Choose resource",
                                        icon: "warning",
                                        buttons: true,
                                        dangerMode: true,
@@ -366,16 +360,16 @@ const JobDetail = () => {
                                    else{
                                    swal({
                                      title: "Jesteś pewien?",
-                                     text: "Potwierdzenie oznacza usunięcie klienta",
+                                     text: "Confirmation means add resource to Job",
                                      icon: "warning",
                                      buttons: true,
                                      dangerMode: true,
                                    })
                                      .then((willPost) => {
                                        if (willPost) {
-                                         onSubmitConstant(ajdi, as, todo.id, "minus", 1)
+                                         onSubmit(ajdi, as, todo.id, "minus", 1)
 
-                                         swal("Unit has been deleted", {
+                                         swal("Resource has been added", {
                                            icon: "success",
                                          });;;
                                        }
@@ -398,7 +392,7 @@ const JobDetail = () => {
 
         <Button disabled={todo && todo.approved == true ? true : false} onClick={() => {
           endAssigment(which)
-          swal("Unit has been deleted", {
+          swal("Job has been ended", {
             icon: "success",
           });
         }}>End Job</Button>

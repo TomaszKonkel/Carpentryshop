@@ -71,7 +71,7 @@ const NewOrder = () => {
       });
       if (response.status === 200) {
         swal({
-          text: "Produkt dodany do listy!",
+          text: "Item has been added to order!",
           icon: "success",
         }).then(function() {
           window.location.reload()
@@ -151,15 +151,6 @@ const NewOrder = () => {
         },
       });
       console.log("1. " + response.status);
-      if (response.status === 200) {
-        swal({
-          text: "Produkt dodany do listy!",
-          icon: "success",
-        }).then(function() {
-          window.location.reload()
-        });;
-
-      }
     } catch (error) {
       if (error) {
         swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
@@ -234,7 +225,7 @@ const NewOrder = () => {
 
         <CCol md={12}>
           <CInputGroup className="has-validation">
-            <CFormInput placeholder="Wyszukaj produkt"
+            <CFormInput placeholder="Search"
               onChange={e =>{
               setSearch(e.target.value)
             }}></CFormInput>
@@ -328,8 +319,8 @@ const NewOrder = () => {
                             <CButton value={products.id} color="success" disabled={products.quantity <= 0 ? true : false}
                                      onClick={e => {
                                        swal({
-                                         title: "Jesteś pewien?",
-                                         text: "Potwierdzenie oznacza usunięcie klienta",
+                                         title: "Are you sure?",
+                                         text: "Confirmation means add to order",
                                          icon: "warning",
                                          buttons: true,
                                          dangerMode: true,
@@ -338,7 +329,7 @@ const NewOrder = () => {
                                            if (willPost) {
                                              onSubmitConstant(products)
                                              doChangeC(e.target.value, products)
-                                             swal("Unit has been deleted", {
+                                             swal("Constant has been added", {
                                                icon: "success",
                                              });
                                              ;
@@ -354,8 +345,8 @@ const NewOrder = () => {
                             <CButton value={products.id} color="success" disabled={products.quantity <= 0 ? true : false}
                                      onClick={e => {
                                        swal({
-                                         title: "Jesteś pewien?",
-                                         text: "Potwierdzenie oznacza usunięcie klienta",
+                                         title: "Are you sure?",
+                                         text: "Confirmation means add to order",
                                          icon: "warning",
                                          buttons: true,
                                          dangerMode: true,
@@ -364,7 +355,7 @@ const NewOrder = () => {
                                            if (willPost) {
                                              onSubmitLiquid(products)
                                              doChangeL(e.target.value, products)
-                                             swal("Unit has been deleted", {
+                                             swal("Liquid has been added", {
                                                icon: "success",
                                              });
                                              ;
@@ -380,8 +371,8 @@ const NewOrder = () => {
                             <CButton value={products.id} color="success"
                                      onClick={e => {
                                        swal({
-                                         title: "Jesteś pewien?",
-                                         text: "Potwierdzenie oznacza usunięcie klienta",
+                                         title: "Are you sure?",
+                                         text: "Confirmation means add to order",
                                          icon: "warning",
                                          buttons: true,
                                          dangerMode: true,
@@ -389,7 +380,7 @@ const NewOrder = () => {
                                          .then((willPost) => {
                                            if (willPost) {
                                              onSubmitFurniture(products)
-                                             swal("Unit has been deleted", {
+                                             swal("Project has been added", {
                                                icon: "success",
                                              });
                                              ;

@@ -213,7 +213,7 @@ const CountAll = () => {
                 labels: fiveProducts && fiveProducts.map((x) => x.data),
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Products',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-primary'),
@@ -295,7 +295,7 @@ const CountAll = () => {
                   labels: fiveProjects && fiveProjects.map((x) => x.data),
                   datasets: [
                     {
-                      label: 'My First dataset',
+                      label: 'Projects',
                       backgroundColor: 'transparent',
                       borderColor: 'rgba(255,255,255,.55)',
                       pointBackgroundColor: getStyle('--cui-info'),
@@ -378,7 +378,7 @@ const CountAll = () => {
                 labels: fiveAll && fiveAll.map((x) => x.data),
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'All Sells',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
                     data: fiveAll && fiveAll.map((x) => x.quantity),

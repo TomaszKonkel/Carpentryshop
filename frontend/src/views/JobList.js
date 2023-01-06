@@ -31,7 +31,7 @@ const JobList = () => {
       let fetchedToDo = await response.json();
       JSON.parse(JSON.stringify(fetchedToDo))
       setToDo(fetchedToDo)
-      // setLoading(false);
+
     } catch (err) {
       console.log(err);
       setError(err);

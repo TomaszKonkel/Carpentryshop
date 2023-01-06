@@ -317,23 +317,7 @@ const Dashboard = () => {
               </h4>
               <div className="small text-medium-emphasis">{sumTotalAssigment + sumTotalCart} zł</div>
             </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
-              <CButtonGroup className="float-end me-3">
-                {['Day', 'Month', 'Year'].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === 'Month'}
-                  >
-                    {value}
-                  </CButton>
-                ))}
-              </CButtonGroup>
-            </CCol>
+
           </CRow>
           <CChartLine
             style={{ height: '300px', marginTop: '40px' }}
@@ -341,7 +325,7 @@ const Dashboard = () => {
               labels: tenProducts && tenProducts.map((x) => x.data),
               datasets: [
                 {
-                  label: 'My First dataset',
+                  label: 'Products ',
                   backgroundColor: hexToRgba(getStyle('--cui-info'), 10),
                   borderColor: getStyle('--cui-info'),
                   pointHoverBackgroundColor: getStyle('--cui-info'),
@@ -350,7 +334,7 @@ const Dashboard = () => {
                   fill: true,
                 },
                 {
-                  label: 'My Second dataset',
+                  label: 'Projects',
                   backgroundColor: 'transparent',
                   borderColor: getStyle('--cui-success'),
                   pointHoverBackgroundColor: getStyle('--cui-success'),
@@ -358,7 +342,7 @@ const Dashboard = () => {
                   data: tenProjects && tenProjects.map((x) => x.total),
                 },
                 {
-                  label: 'My Third dataset',
+                  label: 'All Earn',
                   backgroundColor: 'transparent',
                   borderColor: getStyle('--cui-danger'),
                   pointHoverBackgroundColor: getStyle('--cui-danger'),
@@ -372,7 +356,7 @@ const Dashboard = () => {
               maintainAspectRatio: false,
               plugins: {
                 legend: {
-                  display: false,
+                  display: true,
                 },
               },
               scales: {

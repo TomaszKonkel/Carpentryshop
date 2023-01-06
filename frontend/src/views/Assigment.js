@@ -38,7 +38,6 @@ export default function Assigment() {
             let fetchedOrder = await response.json();
             JSON.parse(JSON.stringify(fetchedOrder))
             setAssigment(fetchedOrder)
-            // setLoading(false);
         } catch (err) {
             console.log(err);
             setError(err);
@@ -72,42 +71,7 @@ export default function Assigment() {
       });
     };
 
-    async function postData(url, data) {
-        setFetchLoading(true);
-        let dataJson = JSON.stringify(data);
-        try {
-            const response = await axios.get(url, dataJson, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-            });
-            console.log("1. " + response.status);
-            if (response.status === 200) {
-                swal({
-                    text: "Produkt dodany do listy!",
-                    icon: "success",
-                }).then(function() {
-                    window.location.reload()
-                });;
-                setLoading(false)
-            }
-        } catch (error) {
-            if (error) {
-                swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
-                console.log("2"+error)
-            }
-        }
-    }
 
-    const onSubmit = () => {
-
-        postData("http://localhost:8080/api/assigment/end", {
-        });
-        postData("http://localhost:8080/api/cart/end", {
-        });
-
-    };
     async function updateData(url, data) {
 
         let dataJson = JSON.stringify(data);
@@ -121,7 +85,7 @@ export default function Assigment() {
             window.location.reload()
         } catch (error) {
             if (error) {
-                swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
+                swal({ text: "Error occurred while changing!!!", icon: "warning" });
                 console.log("2"+error)
             }
         }
@@ -187,10 +151,7 @@ export default function Assigment() {
 
         <section >
             <CContainer >
-
-
                         {assigment && assigment.map((order) => {
-
                                 return (
                                   <CCardBody>
                                     <CRow>
@@ -202,11 +163,6 @@ export default function Assigment() {
                                                       src={order.furniture.photos}
                                           />
 
-
-                                          <a href="src/views/Assigment#!">
-                                            <div className="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" , }}>
-                                            </div>
-                                          </a>
                                         </MDBRipple>
                                       </CCol>
 
@@ -225,8 +181,8 @@ export default function Assigment() {
                                         <CButton value={order.id} color="danger"
                                                  onClick={e => {
                                                    swal({
-                                                     title: "Jesteś pewien?",
-                                                     text: "Potwierdzenie oznacza usunięcie klienta",
+                                                     title: "Are your sure?",
+                                                     text: "Confirmation means delete from order",
                                                      icon: "warning",
                                                      buttons: true,
                                                      dangerMode: true,
@@ -236,10 +192,10 @@ export default function Assigment() {
                                                          console.log(e.target.value)
                                                          deleteProduct(order.id, order.furniture, order.quantityItemAssigment)
                                                          setTimeout(2000)
-                                                         swal("Unit has been deleted", {
+                                                         swal("Project has been deleted", {
                                                            icon: "success",
                                                          }).then(function () {
-                                                           window.location = "/";
+                                                           window.location.reload()
                                                          });
                                                          ;
                                                          ;
@@ -262,7 +218,7 @@ export default function Assigment() {
 
                                                      if(order.quantityItemAssigment == 1){
                                                        swal({
-                                                         title: "Ilość przedmoiotu w zamówieniu nie może być mniejsza od 1",
+                                                         title: "Quantity of project in order can't be less than 1",
                                                          icon: "warning",
                                                          buttons: true,
                                                          dangerMode: true,

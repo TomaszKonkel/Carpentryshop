@@ -59,7 +59,7 @@ const CreateProjects = () => {
           })
 
           swal({
-            text: "Produkt dodany do listy!",
+            text: "Project added to list!!",
             icon: "success",
           }).then(function() {
             window.location = "Dashboard";
