@@ -25,7 +25,7 @@ Few example photo of application design
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/AddingToOrder.PNG)
 
 - Job List view
-![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/JobList.PNG)
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/JobListView.PNG)
 
 - Dashboard view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/Dashboard.PNG)
