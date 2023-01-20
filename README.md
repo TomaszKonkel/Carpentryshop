@@ -6,4 +6,26 @@ Frontend was made in React and based on CORE UI template
 
 Few example photo of application design 
 
+
+
+ - Dashboard view
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/Dashboard.PNG)
+
+
+- Create Form view
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ExampleCreatingForm.PNG)
+
+- Update form view view
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ExampleUpdatingForm.PNG)
+
+- Product managment view
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ProductManagment.PNG)
+
+- Add to Order view
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/AddingToOrder.PNG)
+
+- Job List view
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/JobList.PNG)
+
+- Dashboard view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/Dashboard.PNG)
