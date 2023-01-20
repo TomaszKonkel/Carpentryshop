@@ -5,7 +5,7 @@ Backend was made in Java (Springboot framework) with MVC standard.
 
 Frontend was made in React and based on CORE UI template
 
-Few example photo of application design 
+Few example photos of application design 
 
 
 
