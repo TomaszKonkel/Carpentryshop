@@ -6,4 +6,4 @@ Frontend was made in React and based on CORE UI template
 
 Few example photo of application design 
 
-![alt text](https://github.com/TomaszKonkel/photo/Dashoboard.png)
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/Dashboard.PNG)
