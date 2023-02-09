@@ -49,7 +49,8 @@ const CreateLiquid = () => {
             capacity: newCapacity,
             quantity: newQuantity,
             pricePerLiter: newPricePerLiter,
-            description : newDescription
+            description : newDescription,
+            productStatus: true
           }
 
 

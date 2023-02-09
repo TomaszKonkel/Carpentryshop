@@ -10,11 +10,10 @@ const AppContent = () => {
     <CContainer lg>
       <Suspense fallback={<CSpinner color="primary" />}>
         <Routes>
-          {routes.map((route, idx) => {
+          {routes.map((route) => {
             return (
               route.element && (
                 <Route
-                  key={idx}
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
@@ -23,7 +22,7 @@ const AppContent = () => {
               )
             )
           })}
-          <Route path="/" element={<Navigate to="dashboard" replace />} />
+          <Route path="/" element={<Navigate to="dashboard"  />} />
         </Routes>
       </Suspense>
     </CContainer>

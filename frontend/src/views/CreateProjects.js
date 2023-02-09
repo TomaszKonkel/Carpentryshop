@@ -37,7 +37,7 @@ const CreateProjects = () => {
         }
         else{
 
-          const urlProduct = 'http://localhost:8080/api/furniture/addFurniture'
+          const urlProduct = 'http://localhost:8080/api/project/addProject'
           const urlPhoto = 'http://localhost:8080/api/products/addPhoto'
           const image = new FormData();
           image.append(`image`, newImage)
@@ -47,23 +47,25 @@ const CreateProjects = () => {
             basePrice: newBasePrice,
             weight: newWeight,
             description : newDescription,
+            productStatus: true
           }
 
 
           axios.post(urlProduct, furniture).then((res) => {
                 console.log(res)
+                  swal({
+                    text: "Project added to list!!",
+                    icon: "success",
+                  }).then(function() {
+                    window.location = "#/Dashboard";
+                  });;
           })
 
           axios.put(urlPhoto, image).then((res) => {
             console.log(res)
           })
 
-          swal({
-            text: "Project added to list!!",
-            icon: "success",
-          }).then(function() {
-            window.location = "Dashboard";
-          });;
+
         }
       setValidated(true)
       }
@@ -76,7 +78,7 @@ const CreateProjects = () => {
     async function fetchedCategory() {
         try {
             const response = await fetch(
-                "http://localhost:8080/api/furniture/category",
+                "http://localhost:8080/api/project/category",
                 {
                     method: "GET",
                     headers: {

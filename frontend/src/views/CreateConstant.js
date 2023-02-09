@@ -51,7 +51,8 @@ const CreateConstant = () => {
             pricePerPiece: newPricePerPiece,
             description : newDescription,
             lengthInCm: newLengthInCm,
-            widthInCm: newWidthInCm
+            widthInCm: newWidthInCm,
+            productStatus: true
           }
 
 

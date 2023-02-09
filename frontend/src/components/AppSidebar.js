@@ -33,10 +33,7 @@ const AppSidebar = () => {
           <AppSidebarNav items={navigation} />
         </SimpleBar>
       </CSidebarNav>
-      <CSidebarToggler
-        className="d-none d-lg-flex"
-        onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-      />
+
     </CSidebar>
   )
 }

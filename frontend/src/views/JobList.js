@@ -99,7 +99,7 @@ const JobList = () => {
                         <p style={{marginLeft: "auto"}}><strong>Date of order:</strong> {todo.creationDate}</p>
                       </div>
                       <div style={{display: "flex"}}>
-                        <p style={{marginLeft: "auto"}}><strong>Total :</strong> {todo.totalPrice} zł</p>
+                        <p style={{marginLeft: "auto"}}><strong>Total :</strong> {Math.round(todo.totalPrice*100) / 100} zł</p>
                       </div>
                       <hr />
                       {todo.itemAssigment?.map((as) => {
@@ -107,7 +107,7 @@ const JobList = () => {
                         return(
                           <div>
                             <div style={{display: "flex"}}>
-                              <p>{as.furniture.name} {""} x{as.quantityItemAssigment} = {as.furniture.basePrice * as.quantityItemAssigment} zł</p>
+                              <p>{as.project.name} {""} x{as.quantityItemAssigment} = {as.project.basePrice * as.quantityItemAssigment} zł</p>
                             </div>
 
                         {resources && resources.map((re) => {

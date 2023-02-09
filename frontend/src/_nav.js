@@ -45,7 +45,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Project',
+        name: '     Project',
         to: '/CreateProjects',
       },
       {

@@ -71,7 +71,7 @@ const NewOrder = () => {
       });
       if (response.status === 200) {
         swal({
-          text: "Item has been added to order!",
+          text: "Product has been added to order!",
           icon: "success",
         }).then(function() {
           window.location.reload()
@@ -80,7 +80,7 @@ const NewOrder = () => {
       }
     } catch (error) {
       if (error) {
-        swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
+        swal({ text: "Error occurs while adding!!!", icon: "warning" });
 
       }
     }
@@ -99,8 +99,8 @@ const NewOrder = () => {
       widthInCm = products.widthInCm
     } = ElementConst;
 
-    postData("http://localhost:8080/api/cart/add", {
-      elementConstant: ElementConst
+    postData("http://localhost:8080/api/items/addItem", {
+      elementConstant: ElementConst,
     });
 
   };
@@ -117,13 +117,13 @@ const NewOrder = () => {
 
     } = ElementLiquid;
 
-    postData("http://localhost:8080/api/cart/addLiquid", {
+    postData("http://localhost:8080/api/items/addItem", {
       elementLiquid: ElementLiquid
     });
 
   };
 
-  const onSubmitFurniture = (Furniture) => {
+  const onSubmitFurniture = (Project) => {
     const {
       id = products.id,
       description = products.description,
@@ -131,10 +131,10 @@ const NewOrder = () => {
       furnitureCategory = products.furnitureCategory,
       basePrice = products.basePrice,
       weight = products.weight,
-    } = Furniture;
+    } = Project;
 
     postData("http://localhost:8080/api/assigment/add", {
-      furniture: Furniture
+      project: Project
     });
 
   };
@@ -153,58 +153,17 @@ const NewOrder = () => {
       console.log("1. " + response.status);
     } catch (error) {
       if (error) {
-        swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
+        swal({ text: "Error occurs while updating!!!", icon: "warning" });
         console.log("2"+error)
       }
     }
   }
 
-  //Function which call function of updating quantity number
-  const doChangeC = (index, elementConstant) => {
-    const {
-      id = products.id,
-      description = products.description,
-      name = products.name,
-      constantCategory = products.constantCategory,
-      pricePerPiece = products.pricePerPiece,
-      lengthInCm = products.lengthInCm,
-      widthInCm = products.widthInCm,
-      quantity = products.quantity
-    } = elementConstant
-    updateData(`http://localhost:8080/api/constant/details/update/constant/${index}`, {
-      id: id,
-      name: name,
-      constantCategory: constantCategory,
-      pricePerPiece: pricePerPiece,
-      lengthInCm: lengthInCm,
-      widthInCm: widthInCm,
-      description: description,
-      quantity: quantity - 1
+  const doChange = (id, type, operation, quan) => {
+    updateData(`http://localhost:8080/api/products/modified?product=${id}&type=${type}&operation=${operation}&quan=${quan}`, {
     });
+  }
 
-  };
-
-  const doChangeL = (index, elementLiquid) => {
-    const {
-      id= products.elementLiquid.id,
-      name= products.elementLiquid.name,
-      capacity= products.elementLiquid.capacity,
-      pricePerLiter= products.elementLiquid.pricePerLiter,
-      liquidCategory= products.elementLiquid.liquidCategory,
-      description= products.elementLiquid.description,
-      quantity= products.elementLiquid.quantity
-    } = elementLiquid
-    updateData(`http://localhost:8080/api/liquid/details/update/liquid/${index}`, {
-      id: id,
-      name: name,
-      liquidCategory: liquidCategory,
-      pricePerLiter: pricePerLiter,
-      capacity: capacity,
-      description: description,
-      quantity: quantity -1
-    });
-
-  };
 
   const filtered = products && products.filter((el) => {
 
@@ -303,17 +262,13 @@ const NewOrder = () => {
                             <h4>{products.pricePerPiece} zł</h4>
                           }
                           {products && products.type === "LIQUID" &&
-                            <h4>{products.pricePerLiter} zł/ </h4>
+                            <h4>{products.pricePerLiter} zł</h4>
                           }
 
 
                         </div>
-                        <div>
-                          <p></p>
 
-                        </div>
-                        <h6 className="text-success text-center">Dodatkowe opcje</h6>
-                        <div className="d-flex flex-column mt-4">
+                        <div className="d-flex flex-column">
 
                           {products && products.type === "CONSTANT" &&
                             <CButton value={products.id} color="success" disabled={products.quantity <= 0 ? true : false}
@@ -328,7 +283,7 @@ const NewOrder = () => {
                                          .then((willPost) => {
                                            if (willPost) {
                                              onSubmitConstant(products)
-                                             doChangeC(e.target.value, products)
+                                             doChange(e.target.value, "CONSTANT", "minus", 1)
                                              swal("Constant has been added", {
                                                icon: "success",
                                              });
@@ -338,7 +293,7 @@ const NewOrder = () => {
                                          });
                                      }}
                             >
-                              Add to Cart
+                              Add to Order
                             </CButton>
                           }
                           {products && products.type === "LIQUID" &&
@@ -354,7 +309,7 @@ const NewOrder = () => {
                                          .then((willPost) => {
                                            if (willPost) {
                                              onSubmitLiquid(products)
-                                             doChangeL(e.target.value, products)
+                                             doChange(e.target.value, "LIQUID", "minus", 1)
                                              swal("Liquid has been added", {
                                                icon: "success",
                                              });
@@ -380,16 +335,11 @@ const NewOrder = () => {
                                          .then((willPost) => {
                                            if (willPost) {
                                              onSubmitFurniture(products)
-                                             swal("Project has been added", {
-                                               icon: "success",
-                                             });
-                                             ;
-                                             ;
                                            }
                                          });
                                      }}
                             >
-                              Add to Assigment
+                              Add to Assignment
                             </CButton>
                           }
                         </div>

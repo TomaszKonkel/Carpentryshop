@@ -187,6 +187,15 @@ const JobDetail = () => {
     }
   }
 
+  const service = todo && todo.itemAssigment.reduce((sum, material) => {
+
+    sum += material.project.basePrice * material.quantityItemAssigment;
+
+    return sum;
+  }, 0)
+
+
+
   const onSubmit = (ajdi, item, assigment, operation, quan) => {
 
     const found = products.find(obj => {
@@ -202,11 +211,11 @@ const JobDetail = () => {
           kindPrice = found.pricePerLiter;
         }
 
-    updateData(`http://localhost:8080/api/resources/modified/${ajdi}/${kind}/${operation}/${quan}`, {
+    updateData(`http://localhost:8080/api/products/modified?product=${ajdi}&type=${kind}&operation=${operation}&quan=${quan}`, {
     });
-    updateData(`http://localhost:8080/api/resources/modifiedPrice/${assigment}/${kindPrice}/plus/1`, {
+    updateData(`http://localhost:8080/api/resources/modifiedPrice?assigment=${assigment}&price=${kindPrice}&operation=plus`, {
     });
-    postData(`http://localhost:8080/api/resources/add/${ajdi}/${assigment}`, {
+    postData(`http://localhost:8080/api/resources/add?product=${ajdi}&assigment=${assigment}`, {
       itemAssigment: item
     });
 
@@ -227,9 +236,9 @@ const JobDetail = () => {
       kindPrice = found.pricePerLiter;
     }
 
-    updateData(`http://localhost:8080/api/resources/modifiedPrice/${assigment}/${kindPrice}/minus/${quan}`, {
+    updateData(`http://localhost:8080/api/resources/modifiedPrice?assigment=${assigment}&price=${kindPrice}&operation=minus&quan=${quan}`, {
     });
-    updateData(`http://localhost:8080/api/resources/modified/${ajdi}/${kind}/${operation}/${quan}`, {
+    updateData(`http://localhost:8080/api/products/modified?product=${ajdi}&type=${kind}&operation=${operation}&quan=${quan}`, {
     });
     postDelete(`http://localhost:8080/api/resources/delete/${resource}`)
 
@@ -237,7 +246,7 @@ const JobDetail = () => {
 
   const endAssigment = (assigment) => {
 
-    updateData(`http://localhost:8080/api/assigment/end/${assigment}`,{})
+    updateData(`http://localhost:8080/api/assigment/end?assigment=${assigment}`,{})
 
   };
 
@@ -250,7 +259,7 @@ const JobDetail = () => {
       <Col>
         <div style={{display: "flex"}}>
           <h1>Assigment {todo && todo.id}</h1>
-          <h3 style={{marginLeft: "auto"}}>Total price: {todo && todo.totalPrice} zł</h3>
+          <h3 style={{marginLeft: "auto"}}>Total price: {Math.round(todo && todo.totalPrice * 100) / 100} zł</h3>
         </div>
         {todo && todo.itemAssigment.map((as) => {
           return(
@@ -259,15 +268,18 @@ const JobDetail = () => {
                 <Card.Body>
                   <Row>
                     <Col md="12" lg="3" className="mb-4 mb-lg-0">
-                      <p>{as.furniture.name}</p>
+                      <p>{as.project.name}</p>
                       <div className="mb-2 text-muted small">
                         <span>Ilość: {as.quantityItemAssigment}</span>
                         <span className="text-primary"> • </span>
-                        <span>Rodzaj: {as.furniture.furnitureCategory}</span>
+                        <span>Rodzaj: {as.project.furnitureCategory}</span>
 
                       </div>
                       <div className="mb-2 text-muted small">
                         <span>Data dodania: {as.data}<br /></span>
+                      </div>
+                      <div className="mb-2 text-muted small">
+                        <span>Service prize: {as.project.basePrice * as.quantityItemAssigment}<br /></span>
                       </div>
                     </Col>
                     <Col md="6">
@@ -335,8 +347,11 @@ const JobDetail = () => {
                             )
 
                         })}
+                      <hr />
 
                       </div>
+
+
 
 
 
@@ -388,6 +403,16 @@ const JobDetail = () => {
             </Container>
 
           )})}
+
+        <div style={{display: "flex"}}>
+          <strong>Prize for services: </strong>
+          <p style={{marginLeft: "auto"}}>{service}</p>
+        </div>
+
+        <div style={{display: "flex"}}>
+          <strong>Prize for materials: </strong>
+          <p style={{marginLeft: "auto"}}>{Math.round((todo && todo.totalPrice - service)*100) / 100}</p>
+        </div>
 
 
         <Button disabled={todo && todo.approved == true ? true : false} onClick={() => {

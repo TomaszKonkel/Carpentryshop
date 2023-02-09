@@ -19,7 +19,7 @@ const Popovers = () => {
 
   const [err, setError] = useState(false);
   const [products, setProducts] = useState(null);
-  const [ajdi, setAjdi] = useState(0);
+  const [ajdi, setAjdi] = useState(4);
   const [delivery, setDelivery] = useState([]);
 
 
@@ -71,6 +71,11 @@ const Popovers = () => {
                         <Form.Control as = "select" size="sm" onChange={
                           event => {
                             setAjdi(event.target.value)
+
+                            const found = products && products.find(x => {
+                              return x.id == ajdi
+                            })
+                            console.log(found.name)
 
                             delivery.push({
                               id: ajdi,

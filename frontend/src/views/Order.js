@@ -14,8 +14,8 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 
-import Cart from "./Cart"
-import Assigment from "./Assigment";
+import Items from "./Items"
+import Assignment from "./Assignment";
 import axios from "axios";
 import swal from "sweetalert";
 
@@ -25,22 +25,35 @@ import swal from "sweetalert";
 const Order = () => {
   const [loading, setLoading] = useState(true);
   const [fetchLoading, setFetchLoading] = useState(false);
+  const [err, setError] = useState(false);
 
   const [assigment, setAssigment] = useState(null);
-  const [err, setError] = useState(false);
   const [totalAssigment, setTotalAssigment] = useState(0);
-  const [totalCart, setTotalCart] = useState(0);
-  const [order, setOrder] = useState(null);
+
+  const [totalItems, setTotalItems] = useState(0);
+  const [items, setItems] = useState(null);
+
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
 
 
-  const total = totalCart + totalAssigment;
+  const total = totalItems + totalAssigment;
+  console.log(items + "CHUJ" + assigment)
 
-  let sumCart = order && Object.keys(order).length;
-  let sumAssigment = assigment && Object.keys(assigment).length;
+  const sumCart = items && Array.isArray(items) ? items.reduce((sum, order) => {
+    sum += order.quantityItems;
+    return sum;
+  }, 0): 0
+
+  const sumAssigment = assigment && Array.isArray(assigment) ? assigment.reduce((sum, assigment) => {
+    sum += assigment.quantityItemAssigment;
+    return sum;
+  }, 0): 0
+
   let sum = sumCart + sumAssigment;
+
+
 
 
   useEffect(() => {
@@ -81,7 +94,7 @@ const Order = () => {
       });
       let fetchedOrder = await response.json();
       JSON.parse(JSON.stringify(fetchedOrder))
-      setOrder(fetchedOrder)
+      setItems(fetchedOrder)
       // setLoading(false);
     } catch (err) {
       console.log(err);
@@ -95,7 +108,7 @@ const Order = () => {
 
   async function fetchedTotalPrizeCart() {
     try {
-      const response = await fetch("http://localhost:8080/api/cart/total", {
+      const response = await fetch("http://localhost:8080/api/items/total", {
         method: "GET", headers: {
           'Accept': 'application/json', "Content-Type": "application/json",
         },
@@ -103,7 +116,7 @@ const Order = () => {
       });
       let fetchedTotalPrizeCart = await response.json();
       JSON.parse(JSON.stringify(fetchedTotalPrizeCart))
-      setTotalCart(fetchedTotalPrizeCart)
+      setTotalItems(fetchedTotalPrizeCart)
       // setLoading(false);
     } catch (err) {
       console.log(err);
@@ -145,7 +158,7 @@ const Order = () => {
       console.log("1. " + response.status);
       if (response.status === 200) {
         swal({
-          text: "Produkt dodany do listy!",
+          text: "Order has been closed!",
           icon: "success",
         }).then(function() {
           window.location.reload()
@@ -154,7 +167,7 @@ const Order = () => {
       }
     } catch (error) {
       if (error) {
-        swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
+        swal({ text: "Error occurs while adding!!!", icon: "warning" });
         console.log("2"+error)
       }
     }
@@ -173,7 +186,7 @@ const Order = () => {
       console.log("1. " + response.status);
     } catch (error) {
       if (error) {
-        swal({ text: "Błąd przy dodawaniu!!!", icon: "warning" });
+        swal({ text: "Error occurs while updating!!!", icon: "warning" });
         console.log("2"+error)
       }
     }
@@ -183,10 +196,10 @@ const Order = () => {
 
     postData("http://localhost:8080/api/assigment/end", {
     });
-    postData("http://localhost:8080/api/cart/end", {
+    postData("http://localhost:8080/api/items/end", {
     });
     if(totalAssigment > 0){
-      updateData(`http://localhost:8080/api/assigment/customerData/${name}/${lastname}/${phonenumber}`, {
+      updateData(`http://localhost:8080/api/assigment/customerData?customerName=${name}&customerLastName=${lastname}&customerPhoneNumber=${phonenumber}`, {
       });
     }
 
@@ -213,18 +226,14 @@ const Order = () => {
                 Cart - {sum} items
               </MDBTypography>
             </CCardHeader>
-
-            {totalCart == 0 && totalAssigment == 0 &&
+            {totalItems == 0 && totalAssigment == 0 &&
               <div >
                 <div className="d-flex align-items-center justify-content-center" style={{margin: 10}}>
                   <i className="fas fa-cart-arrow-down fa-10x"></i>
                 </div>
 
                   <div className="d-flex align-items-center justify-content-center">
-
                     <h3><strong>Your order is empty :(</strong></h3>
-
-
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
 
@@ -232,17 +241,14 @@ const Order = () => {
 
                   </div>
               </div>
-
             }
-
-            {totalCart > 0 &&
-              <Cart/>
+            {totalItems > 0 &&
+              <Items/>
             }
 
             {totalAssigment > 0 &&
-              <Assigment/>
+              <Assignment/>
             }
-
           </CCard>
 
         </CCol>
@@ -266,52 +272,61 @@ const Order = () => {
                     e => setLastname(e.target.value)
                   }
                               className="mb-4" label="Customer Lastname" type="text"/>
-                  <CFormInput  disabled={sumAssigment <= 0 ? true : false} type="number" onChange={
+                  <CFormInput  disabled={sumAssigment <= 0 ? true : false} type="tel" onChange={
                     e => setPhonenumber(e.target.value)
                   }
                     label="Customer phone number"
                     />
+
                 </form>
 
                 <hr />
 
                 <div className="d-flex justify-content-between">
                   <p className="mb-2">Products</p>
-                  <p className="mb-2">{totalCart} zł</p>
+                  <p className="mb-2">{Math.round(totalItems *100 ) /100} zł</p>
                 </div>
 
                 <div className="d-flex justify-content-between">
                   <p className="mb-2">Projects</p>
-                  <p className="mb-2">{totalAssigment} zł</p>
+                  <p className="mb-2">{Math.round(totalAssigment *100 ) /100} zł</p>
                 </div>
 
                 <hr />
 
                 <div className="d-flex justify-content-between">
                   <p className="mb-2"><strong>Total</strong></p>
-                  <p className="mb-2">{total} zł</p>
+                  <p className="mb-2">{Math.round(total *100 ) /100} zł</p>
                 </div>
 
-                <CButton color="info" block size="lg" disabled={
-                  total === 0 ? true : false
-                }
+                <CButton color="info" block size="lg" disabled={ total === 0 ? true : false }
                          onClick={() =>{
-                           if(totalAssigment > 0){
-                             if(name === "" || lastname === "" || phonenumber === ""){
-                               swal({ text: "Please enter all information about customer", icon: "warning" })
+                           swal({
+                           title: "Are you sure?",
+                           text: "Confirmation means accept whole order",
+                           icon: "warning",
+                           buttons: true,
+                           dangerMode: true,
+                         }).then((willPost) => {
+                           if (willPost) {
+                             if(totalAssigment > 0){
+                               if(name === "" || lastname === "" || phonenumber === ""){
+                                 swal({ text: "Please enter all information about customer", icon: "warning" })
+                               }
+                               else{
+                                 onSubmit()
+                               }
+
                              }
-                             else{
+                             else {
                                onSubmit()
                              }
+                           }
+                         });
 
-                           }
-                           else {
-                             onSubmit()
-                           }
                          }
                          } >
                   <div className="d-flex justify-content-between">
-
                   <span>
                           Checkout{" "}
                     <i className="fas fa-long-arrow-alt-right ms-2"></i>

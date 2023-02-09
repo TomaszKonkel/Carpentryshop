@@ -34,7 +34,7 @@ const CountAll = () => {
 
     const sumProduct = cart && cart.reduce((sum, cart) => {
       if(cart.data == today.toLocaleDateString("en-CA")){
-        sum += cart.quantityItemCart
+        sum += cart.quantityItems
       }
       return sum;
     }, 0)
@@ -124,12 +124,12 @@ const CountAll = () => {
     cart && cart.forEach(x => {
       if(fiveProducts[i].data == x.data) {
         if (fiveProducts[i].quantity > 0){
-          fiveProducts[i].quantity += x.quantityItemCart
-          fiveAll[i].quantity += x.quantityItemCart
+          fiveProducts[i].quantity += x.quantityItems
+          fiveAll[i].quantity += x.quantityItems
         }
         else {
-          fiveProducts[i].quantity = x.quantityItemCart
-          fiveAll[i].quantity += x.quantityItemCart
+          fiveProducts[i].quantity = x.quantityItems
+          fiveAll[i].quantity += x.quantityItems
         }
       }
     })

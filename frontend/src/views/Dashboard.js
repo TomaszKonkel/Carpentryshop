@@ -111,7 +111,7 @@ const Dashboard = () => {
 
   async function fetchedCartTotal() {
     try {
-      const response = await fetch("http://localhost:8080/api/cart/allCart", {
+      const response = await fetch("http://localhost:8080/api/items/allItems", {
         method: "GET", headers: {
           'Accept': 'application/json', "Content-Type": "application/json",
         }, redirect: "follow",
@@ -212,7 +212,7 @@ const Dashboard = () => {
       };
       countCart.push(this[a.elementConstant.name]);
     }
-    this[a.elementConstant.name].count += a.quantityItemCart;
+    this[a.elementConstant.name].count += a.quantityItems;
   }
     if(a.elementLiquid != null) {
       if (!this[a.elementLiquid.name]) {
@@ -222,20 +222,20 @@ const Dashboard = () => {
         };
         countCart.push(this[a.elementLiquid.name]);
       }
-      this[a.elementLiquid.name].count += a.quantityItemCart;
+      this[a.elementLiquid.name].count += a.quantityItems;
     }
     }, Object.create(null));
 
   itemAssigment && itemAssigment.forEach(function(a) {
 
-      if (!this[a.furniture.name]) {
-        this[a.furniture.name] = {
-          name: a.furniture.name,
+      if (!this[a.project.name]) {
+        this[a.project.name] = {
+          name: a.project.name,
           count: 0
         };
-        countAssigment.push(this[a.furniture.name]);
+        countAssigment.push(this[a.project.name]);
       }
-      this[a.furniture.name].count += a.quantityItemAssigment;
+      this[a.project.name].count += a.quantityItemAssigment;
 
 
   }, Object.create(null));
@@ -292,14 +292,10 @@ const Dashboard = () => {
     return sum;
   }, 0)
 
+  console.log(countTop5)
 
-  const progressExample = [
-    { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-    { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-    { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-    { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  ]
+
+
 
 
 

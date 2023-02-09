@@ -48,9 +48,7 @@ export default function FurnitureDetail() {
         }
     }
 
-    useEffect(() => {
-        fetchedProducts();
-    }, []);
+
 
 
     const [newName, setNewName] = useState("");
@@ -59,6 +57,10 @@ export default function FurnitureDetail() {
     const [newWeight, setNewWeight] = useState("");
     const [newDescription, setNewDescription] = useState("");
     const [newImage, setNewImage] = useState("");
+
+  useEffect(() => {
+    fetchedProducts();
+  }, []);
 
     async function fetchedProducts() {
         try {
@@ -97,7 +99,7 @@ export default function FurnitureDetail() {
 
 
 
-    async function postData(url, data) {
+    async function updateData(url, data) {
 
         let dataJson = JSON.stringify(data);
         try {
@@ -133,7 +135,7 @@ export default function FurnitureDetail() {
             basePrice= newBasePrice,
             weight = newWeight
         } = productData;
-        postData(`http://localhost:8080/api/furniture/details/update/furniture/${query.get("id")}`, {
+      updateData(`http://localhost:8080/api/project/details/update/project/${query.get("id")}`, {
             id: query.get("id"),
             name: name,
             furnitureCategory: furnitureCategory,
@@ -141,7 +143,6 @@ export default function FurnitureDetail() {
             weight: weight,
             description : description
         });
-        console.log("3"+postData);
     };
 
 console.log(newImage)

@@ -43,7 +43,7 @@ const ProductList = () => {
       }
   }
 
-  async function postDelete(url) {
+  async function changeStatus(url) {
     try {
       const response = await axios.post(url, {
         headers: {
@@ -59,8 +59,8 @@ const ProductList = () => {
     }
   }
 
-  const doDelete = (id) => {
-    postDelete(
+  const statusChange = (id) => {
+    changeStatus(
       `http://localhost:8080/api/products/status/${id}`,
     );
   };
@@ -164,7 +164,7 @@ const ProductList = () => {
                                                 <h4>{products.pricePerPiece} zł</h4>
                                                 }
                                                 {products && products.type === "LIQUID" &&
-                                                <h4>{products.pricePerLiter} zł/ </h4>
+                                                <h4>{products.pricePerLiter} zł </h4>
                                                 }
 
 
@@ -177,15 +177,15 @@ const ProductList = () => {
                                         <div className="d-flex flex-column mt-4">
                                             {products && products.type === "FURNITURE" &&
                                             <CButton color="outline-primary"><Link style={{ color: "primary", textDecoration: "none" }} to={`/ProjectDetail?id=${products.id}`}>
-                                                Szczegóły
+                                                Details
                                             </Link></CButton> }
                                             {products && products.type === "CONSTANT" &&
                                             <CButton color="outline-primary"><Link style={{ color: "primary", textDecoration: "none" }} to={`/ConstantDetail?id=${products.id}`}>
-                                                Szczegóły
+                                                Details
                                             </Link></CButton> }
                                             {products && products.type === "LIQUID" &&
                                             <CButton color="outline-primary"><Link style={{ color: "primary", textDecoration: "none" }} to={`/LiquidDetail?id=${products.id}`}>
-                                                Szczegóły
+                                                Details
                                             </Link></CButton> }
                                         </div>
                                         <div className="d-flex flex-column mt-2">
@@ -203,7 +203,7 @@ const ProductList = () => {
                                                        })
                                                          .then((willDelete) => {
                                                            if (willDelete) {
-                                                             doDelete(e.target.value)
+                                                             statusChange(e.target.value)
                                                              swal("Item has been disabled", {
                                                                icon: "success",
                                                              }).then(function () {
@@ -233,7 +233,7 @@ const ProductList = () => {
                                                        })
                                                          .then((willDelete) => {
                                                            if (willDelete) {
-                                                             doDelete(e.target.value)
+                                                             statusChange(e.target.value)
                                                              swal("Item has been enabled", {
                                                                icon: "success",
                                                              }).then(function () {
