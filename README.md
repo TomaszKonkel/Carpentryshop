@@ -25,11 +25,8 @@ Few example photos of application design
 - Add to Order view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/AddingToOrder.PNG)
 
-- Cart view
-![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/CartView.PNG)
-
 - Job List view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/JobListView.PNG)
 
-- Job Detail view
+- Dashboard view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/JobDetails.PNG)
