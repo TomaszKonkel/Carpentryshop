@@ -15,6 +15,8 @@ const JobList = () => {
 
   const [err, setError] = useState(false);
 
+
+
   useEffect(() => {
     fetchedToDo();
   }, []);
@@ -67,15 +69,15 @@ const JobList = () => {
   }
 
 
+
+
   return (
-
     <CContainer>
-
-      {toDo && toDo.map((todo) => {
-
+      {toDo && toDo
+        .sort((a, b) => a.name > b.name ? 1 : -1)
+        .map((todo) => {
         return (
           <CContainer  >
-
             {Object.keys(toDo).length == 0 &&
               <p>Brak zleceń</p>
             }
@@ -94,12 +96,16 @@ const JobList = () => {
                     </CAccordionHeader>
                     <CAccordionBody >
                       <div style={{display: "flex"}}>
-
                         <p><strong>Ordered by:</strong> {todo.customerName} {todo.customerLastName}</p>
                         <p style={{marginLeft: "auto"}}><strong>Date of order:</strong> {todo.creationDate}</p>
                       </div>
+
                       <div style={{display: "flex"}}>
                         <p style={{marginLeft: "auto"}}><strong>Total :</strong> {Math.round(todo.totalPrice*100) / 100} zł</p>
+                      </div>
+
+                      <div style={{display: "flex"}}>
+                        <p style={{marginLeft: "auto"}}><strong>Number of phone: </strong> {todo.customerPhoneNumber}</p>
                       </div>
                       <hr />
                       {todo.itemAssigment?.map((as) => {

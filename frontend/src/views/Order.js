@@ -18,8 +18,7 @@ import Items from "./Items"
 import Assignment from "./Assignment";
 import axios from "axios";
 import swal from "sweetalert";
-
-
+import { loadStripe} from "@stripe/stripe-js";
 
 
 const Order = () => {
@@ -37,6 +36,8 @@ const Order = () => {
   const [lastname, setLastname] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
 
+  const stripePromise = loadStripe("pk_test_51MeGBpCUeLuBwpSzye64aAPKdKrfQsdXskaVc4YMAOPNFLFGCE6djmyrwuBGvYgJhWgK6LrjaJlpdJCvvJ8h25lo001JuVmGMA");
+
 
   const total = totalItems + totalAssigment;
   console.log(items + "CHUJ" + assigment)
@@ -52,6 +53,9 @@ const Order = () => {
   }, 0): 0
 
   let sum = sumCart + sumAssigment;
+
+  console.log(items && items)
+  console.log(items && assigment)
 
 
 
@@ -203,9 +207,9 @@ const Order = () => {
       });
     }
 
-
-
   };
+
+
   return (
     <CContainer className="py-5 h-100">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -263,7 +267,7 @@ const Order = () => {
                 </div>
 
 
-                <form className="mt-4">
+                <form action="/create-checkout-session" className="mt-4">
                   <CFormInput disabled={sumAssigment <= 0 ? true : false} onChange={
                     e => setName(e.target.value)
                   }
@@ -279,6 +283,7 @@ const Order = () => {
                     />
 
                 </form>
+
 
                 <hr />
 

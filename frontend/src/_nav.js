@@ -45,7 +45,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: '     Project',
+        name: 'Project',
         to: '/CreateProjects',
       },
       {
@@ -78,6 +78,12 @@ const _nav = [
     component: CNavItem,
     name: 'Supply',
     to: '/Delivery',
+    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Exchange',
+    to: '/Exchange',
     icon: <CIcon icon={cilList} customClassName="nav-icon" />,
   },
 

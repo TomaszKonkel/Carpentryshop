@@ -253,13 +253,14 @@ const JobDetail = () => {
 
 
 
+
   return (
     <Container className="d-flex justify-content-center align-items-center" >
 
       <Col>
         <div style={{display: "flex"}}>
-          <h1>Assigment {todo && todo.id}</h1>
-          <h3 style={{marginLeft: "auto"}}>Total price: {Math.round(todo && todo.totalPrice * 100) / 100} zł</h3>
+          <h1>Assignment {todo && todo.id}</h1>
+
         </div>
         {todo && todo.itemAssigment.map((as) => {
           return(
@@ -295,7 +296,7 @@ const JobDetail = () => {
                         }>
                           <option value= "0" >Choose resource...</option>
                           {products && products.map((products) => {
-                            if((products.type == "CONSTANT" || products.type == "LIQUID") && products.quantity > 0){
+                            if((products.type == "CONSTANT" || products.type == "LIQUID") && (products.quantity > 0 && products.productStatus == true)){
 
                               return (
                                 <option value={products.id}>{products.id}|{products.name}</option>
@@ -347,7 +348,6 @@ const JobDetail = () => {
                             )
 
                         })}
-                      <hr />
 
                       </div>
 
@@ -404,26 +404,61 @@ const JobDetail = () => {
 
           )})}
 
-        <div style={{display: "flex"}}>
-          <strong>Prize for services: </strong>
-          <p style={{marginLeft: "auto"}}>{service}</p>
-        </div>
+
+        <Card className="shadow-lg border rounded-3 mt-5 mb-3">
+          <Card.Body className="p-4">
+            <div className="float-end">
+              <p className="mb-0 me-5 d-flex align-items-center">
+                <span className="small text-muted me-2">Price for services:</span>
+                <span className="lead fw-normal">{service} zł</span>
+              </p>
+            </div>
+
+            <div className="float-end">
+              <p className="mb-0 me-5 d-flex align-items-center">
+                <span className="small text-muted me-2">Price for materials:</span>
+                <span className="lead fw-normal">{Math.round((todo && todo.totalPrice - service)*100) / 100} zł</span>
+              </p>
+            </div>
+
+            <div className="float-end">
+              <p className="mb-0 me-5 d-flex align-items-center">
+                <span className="small text-muted me-2">Order total:</span>
+                <span className="lead fw-normal">{Math.round(todo && todo.totalPrice * 100) / 100} zł</span>
+              </p>
+            </div>
+          </Card.Body>
+        </Card>
+
 
         <div style={{display: "flex"}}>
-          <strong>Prize for materials: </strong>
-          <p style={{marginLeft: "auto"}}>{Math.round((todo && todo.totalPrice - service)*100) / 100}</p>
+          <Button style={{marginLeft: "auto"}} disabled={todo && todo.approved == true ? true : false} onClick={() => {
+            if(todo && Object.keys(todo.resources).length == 0){
+              swal("At least one resource need to be added", {
+                icon: "warning",
+              });
+            }else{
+              swal({
+                title: "Are you sure?",
+                text: "Confirmation means end a Job",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              })
+                .then((willPost) => {
+                  if (willPost) {
+                    endAssigment(which)
+                    swal("Job has been ended", {
+                      icon: "success",
+                    });;;
+                  }
+                });
+
+            }
+          }}>End Job</Button>
         </div>
-
-
-        <Button disabled={todo && todo.approved == true ? true : false} onClick={() => {
-          endAssigment(which)
-          swal("Job has been ended", {
-            icon: "success",
-          });
-        }}>End Job</Button>
 
       </Col>
-
 
     </Container>
 

@@ -13,6 +13,7 @@ const CreateConstant = React.lazy(() => import('./views/CreateConstant'))
 const CreateLiquid = React.lazy(() => import('./views/CreateLiquid'))
 const Order = React.lazy(() => import('./views/Order'))
 const Delivery = React.lazy(() => import('./views/Delivery'))
+const Exchange = React.lazy(() => import('./views/Exchange'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -29,6 +30,7 @@ const routes = [
   { path: '/CreateLiquid', name: 'CreateLiquid', element: CreateLiquid },
   { path: '/Order', name: 'Order', element: Order },
   { path: '/Delivery', name: 'Delivery', element: Delivery },
+  { path: '/Exchange', name: 'Exchange', element: Exchange },
 ]
 
 export default routes

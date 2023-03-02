@@ -1,6 +1,7 @@
 package com.project.carpentryshop.Repo;
 
 import com.project.carpentryshop.entity.Assigment;
+import com.project.carpentryshop.entity.Cart;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

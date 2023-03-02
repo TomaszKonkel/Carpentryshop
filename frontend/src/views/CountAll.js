@@ -30,8 +30,6 @@ const CountAll = () => {
   });
 
   useEffect(() => {
-
-
     const sumProduct = cart && cart.reduce((sum, cart) => {
       if(cart.data == today.toLocaleDateString("en-CA")){
         sum += cart.quantityItems
@@ -157,8 +155,11 @@ const CountAll = () => {
   let diffProduct = (sumTotalProduct - fiveProducts[fiveProducts.length - 1].quantity)
   var percentProducts = Math.round( (diffProduct / fiveProducts[fiveProducts.length - 1].quantity) * 100)
 
-  if(percentProducts == Infinity){
+  if(percentProducts == Infinity ){
     percentProducts = sumTotalProduct * 100;
+  }
+  if(sumTotalProduct == 0 && fiveProducts[fiveProducts.length - 1].quantity == 0 ){
+    percentProducts = 0;
   }
 
 
@@ -168,12 +169,19 @@ const CountAll = () => {
   if(percentProjects == Infinity){
     percentProjects = sumTotalProjects * 100;
   }
+  if(sumTotalProjects == 0 && fiveProjects[fiveProjects.length - 1].quantity == 0 ){
+    percentProjects = 0;
+  }
+
 
   let diffAll = ((sumTotalProjects + sumTotalProduct) - fiveAll[fiveAll.length - 1].quantity)
   var percentAll = Math.round( (diffAll / fiveAll[fiveAll.length - 1].quantity) * 100)
 
   if(percentAll == Infinity){
     percentAll = (sumTotalProjects + sumTotalProduct) * 100;
+  }
+  if((sumTotalProjects + sumTotalProduct) == 0 && fiveAll[fiveAll.length - 1].quantity == 0 ){
+    percentAll = 0;
   }
 
 

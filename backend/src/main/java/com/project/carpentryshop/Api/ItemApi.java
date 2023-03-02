@@ -1,13 +1,16 @@
 package com.project.carpentryshop.Api;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.project.carpentryshop.Repo.ItemsRepository;
-import com.project.carpentryshop.Repo.ItemListRepository;
+import com.project.carpentryshop.Repo.CartRepository;
+import com.project.carpentryshop.Repo.ItemRepository;
 import com.project.carpentryshop.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.lang.Throwable;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -15,42 +18,42 @@ import java.util.List;
 @RequestMapping("/api/item")
 @CrossOrigin
 public class ItemApi {
-    private ItemListRepository itemListRepository;
-    private ItemsRepository itemsRepository;
+    private ItemRepository itemRepository;
+    private CartRepository cartRepository;
 
 
     @Autowired
-    public ItemApi(ItemListRepository itemListRepository, ItemsRepository itemsRepository) {
-        this.itemListRepository = itemListRepository;
-        this.itemsRepository = itemsRepository;
+    public ItemApi(ItemRepository itemRepository, CartRepository cartRepository) {
+        this.itemRepository = itemRepository;
+        this.cartRepository = cartRepository;
     }
 
     @GetMapping("/allCart")
-    public Iterable<ItemList> getAllCart() {
-        return itemListRepository.findAll();
+    public Iterable<ItemCart> getAllCart() {
+        return itemRepository.findAll();
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ItemList>> getAll() {
-        if(itemListRepository.count() != 0){
-            Items last = itemListRepository.findTopByOrderByItemsDesc().getItems();
+    public ResponseEntity<List<ItemCart>> getAll() {
+        if(itemRepository.count() != 0){
+            Cart last = itemRepository.findTopByOrderByCartDesc().getCart();
             if(last.isActive() == false)
             {
                 return new ResponseEntity(new emptySite(), HttpStatus.OK);
             }
-            return new ResponseEntity<>(itemListRepository.findByItems(last), HttpStatus.OK);
+            return new ResponseEntity<>(itemRepository.findByCart(last), HttpStatus.OK);
         }
-        return new ResponseEntity<>((List<ItemList>) itemListRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>((List<ItemCart>) itemRepository.findAll(), HttpStatus.OK);
 
     }
 @PutMapping("/details/{id}")
-    public ResponseEntity updateClient(@PathVariable Long id, @RequestBody ItemList item){
-        ItemList updateItem = itemListRepository.findById(id).orElseThrow(RuntimeException::new);
-        updateItem.setQuantityItems(item.getQuantityItems());
-        Long lastId = itemsRepository.findTopByOrderByIdDesc().getId();
+    public ResponseEntity updateClient(@PathVariable Long id, @RequestBody ItemCart item){
+        ItemCart updateItem = itemRepository.findById(id).orElseThrow(RuntimeException::new);
+        updateItem.setQuantityItemCart(item.getQuantityItemCart());
+        Long lastId = cartRepository.findTopByOrderByIdDesc().getId();
         System.out.println(lastId);
-        updateItem.setItems(itemsRepository.findTopById(lastId));
-        itemListRepository.save(updateItem);
+        updateItem.setCart(cartRepository.findTopById(lastId));
+        itemRepository.save(updateItem);
 
 
         return ResponseEntity.ok(updateItem);
@@ -58,13 +61,13 @@ public class ItemApi {
 
 
 
-    @DeleteMapping("/deleteItem/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable("id") Long id){
-        Items find = itemsRepository.findByIsActive(true);
+        Cart find = cartRepository.findByIsActive(true);
 
-        itemListRepository.deleteById(id);
-        if(find.getItems().isEmpty() == true){
-            itemsRepository.deleteById(find.getId());
+        itemRepository.deleteById(id);
+        if(find.getItemCart().isEmpty() == true){
+            cartRepository.deleteById(find.getId());
         }
     }
 

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/resources")
 @CrossOrigin
@@ -19,7 +21,7 @@ public class ResourcesApi {
     private ElementLiquidRepo elementLiquidRepo;
 
     @Autowired
-    public ResourcesApi(ResourcesRepository resourcesRepository, AssigmentRepository assigmentRepository, @Qualifier("projectRepo") ProductRepo productRepo, ElementConstantRepo elementConstantRepo, ElementLiquidRepo elementLiquidRepo) {
+    public ResourcesApi(ResourcesRepository resourcesRepository, AssigmentRepository assigmentRepository, @Qualifier("furnitureRepo") ProductRepo productRepo, ElementConstantRepo elementConstantRepo, ElementLiquidRepo elementLiquidRepo) {
         this.resourcesRepository = resourcesRepository;
         this.productRepo =productRepo;
         this.assigmentRepository = assigmentRepository;
@@ -34,11 +36,8 @@ public class ResourcesApi {
     }
 
 
-    @PutMapping("/modifiedPrice")
-    public ResponseEntity modifiedPrice(@RequestParam("assigment") Long assigment,
-                                        @RequestParam("price") double price,
-                                        @RequestParam("operation") String operation,
-                                        @RequestParam(required = false) Long quan) {
+    @PutMapping("/modifiedPrice/{assigment}/{price}/{operation}/{quan}")
+    public ResponseEntity modifiedPrice(@PathVariable Long assigment, @PathVariable double price, @PathVariable String operation, @PathVariable int quan) {
 
         Assigment assigmentFind = assigmentRepository.findById(assigment).orElseThrow(RuntimeException::new);
         System.out.println(operation);
@@ -54,10 +53,40 @@ public class ResourcesApi {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PutMapping("/modified/{product}/{type}/{operation}/{quan}")
+    public ResponseEntity modified(@PathVariable Long product, @PathVariable String type, @PathVariable String operation, @PathVariable int quan) {
 
 
-    @PostMapping("/add")
-    public ResponseEntity add(@RequestParam("product") Long product, @RequestParam("assigment") Long assigment,@RequestBody  Resources resources) {
+        if (type.equals("CONSTANT")){
+            ElementConstant constant = (ElementConstant) elementConstantRepo.findById(product).orElseThrow(RuntimeException::new);
+                if (operation.equals("minus")){
+                    constant.setQuantity((constant.getQuantity() - quan));
+                    elementConstantRepo.save(constant);
+                }
+                if (operation.equals("plus")){
+                    constant.setQuantity((constant.getQuantity() + quan));
+                    elementConstantRepo.save(constant);
+                }
+        }
+
+        if (type.equals("LIQUID")){
+            ElementLiquid liquid = (ElementLiquid) elementLiquidRepo.findById(product).orElseThrow(RuntimeException::new);
+                if (operation.equals("minus")){
+                    liquid.setQuantity((liquid.getQuantity() - quan));
+                    elementLiquidRepo.save(liquid);
+                }
+                if (operation.equals("plus")){
+                    liquid.setQuantity((liquid.getQuantity() + quan));
+                    elementLiquidRepo.save(liquid);
+                }
+        }
+
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/add/{product}/{assigment}")
+    public ResponseEntity add(@PathVariable Long product, @PathVariable Long assigment,@RequestBody  Resources resources) {
 
         if(resourcesRepository.count() == 0 ){
             Product productFind =productRepo.findById(product).orElseThrow(RuntimeException::new);
@@ -70,9 +99,9 @@ public class ResourcesApi {
             return ResponseEntity.ok(HttpStatus.OK);
         }
 
-        boolean resourcesExist = resourcesRepository.existsByProductIdAndAssigmentIdAndProjectList(product, assigment, resources.getItemAssigment());
+        boolean resourcesExist = resourcesRepository.existsByProductIdAndAssigmentIdAndItemAssigment(product, assigment, resources.getItemAssigment());
         if(resourcesExist){
-            Resources find = resourcesRepository.findByProductIdAndAssigmentIdAndProjectList(product, assigment, resources.getItemAssigment());
+            Resources find = resourcesRepository.findByProductIdAndAssigmentIdAndItemAssigment(product, assigment, resources.getItemAssigment());
             find.setQuantityResources(find.getQuantityResources() + 1);
 
             resourcesRepository.save(find);

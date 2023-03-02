@@ -1,8 +1,11 @@
 package com.project.carpentryshop.Api;
 
 import com.project.carpentryshop.Repo.ElementConstantRepo;
+import com.project.carpentryshop.Repo.FurnitureRepo;
 import com.project.carpentryshop.entity.ConstantCategory;
 import com.project.carpentryshop.entity.ElementConstant;
+import com.project.carpentryshop.entity.Furniture;
+import com.project.carpentryshop.entity.FurnitureCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +27,7 @@ public class ConstantApi {
     }
 
     @PostMapping("/addConstant")
-    public ElementConstant addConst(@RequestBody ElementConstant elementConstant) {
+    public ElementConstant addProduct(@RequestBody ElementConstant elementConstant) {
         return elementConstantRepo.save(elementConstant);
     }
 

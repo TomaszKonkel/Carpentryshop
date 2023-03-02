@@ -1,8 +1,9 @@
 package com.project.carpentryshop.Api;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.project.carpentryshop.Repo.AssigmentRepository;
-import com.project.carpentryshop.Repo.ProjecListRepository;
+import com.project.carpentryshop.Repo.ItemARepository;
 import com.project.carpentryshop.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,14 @@ import java.util.Optional;
 @CrossOrigin
 public class AssigmentApi {
     private AssigmentRepository assigmentRepository;
-    private ProjecListRepository projecListRepository;
+    private ItemARepository itemARepository;
 
 
 
     @Autowired
-    public AssigmentApi(AssigmentRepository assigmentRepository, ProjecListRepository projecListRepository) {
+    public AssigmentApi(AssigmentRepository assigmentRepository, ItemARepository itemARepository) {
         this.assigmentRepository = assigmentRepository;
-        this.projecListRepository = projecListRepository;
+        this.itemARepository = itemARepository;
 
     }
     @GetMapping("/allAssigment")
@@ -55,64 +56,69 @@ public class AssigmentApi {
 
 
         @PostMapping("/add")
-    public ResponseEntity createAssigment(@RequestBody ProjectList item) {
+    public ResponseEntity createAssigment(@RequestBody ItemAssigment item) {
+
 
         if(assigmentRepository.count() == 0) {
             Assigment assigment = new Assigment();
             assigment.setName("Assigment 1");
-            assigment.setCustomerName("undefined");
-            assigment.setCustomerPhoneNumber(0);
-            assigment.setCustomerLastName("undefined");
-            return createJob(item, assigment);
+            assigment.setInCart(true);
+            assigment.setApproved(false);
+            assigment.setTotalPrice(item.getFurniture().getBasePrice());
+            assigment.setCreationDate(LocalDate.now());
+            List<ItemAssigment> items = Arrays.asList(item);
+            assigment.setItemAssigment(items);
+
+            item.setData(LocalDate.now());
+            item.setQuantityItemAssigment(1);
+            item.setAssigment(assigment);
+            assigmentRepository.save(assigment);
+            return ResponseEntity.ok(HttpStatus.OK);
         }
         if(assigmentRepository.findTopByOrderByIdDesc().isInCart() == false)
         {
 
             Assigment assigment = new Assigment();
-            assigment.setName("Assigment"+ " " + (assigmentRepository.count() + 1));
-            return createJob(item, assigment);
+            assigment.setName("Assigment" + (assigmentRepository.count() + 1));
+            assigment.setInCart(true);
+            assigment.setApproved(false);
+            assigment.setTotalPrice(item.getFurniture().getBasePrice());
+            assigment.setCreationDate(LocalDate.now());
+            List<ItemAssigment> items = Arrays.asList(item);
+            assigment.setItemAssigment(items);
+
+            item.setData(LocalDate.now());
+            item.setQuantityItemAssigment(1);
+            item.setAssigment(assigment);
+            assigmentRepository.save(assigment);
+            return ResponseEntity.ok(HttpStatus.OK);
         }
-        Project exist = item.getProject();
-        boolean ifexist = projecListRepository.existsByProjectAndAssigment(exist, assigmentRepository.findTopByOrderByIdDesc());
+        Furniture exist = item.getFurniture();
+        boolean ifexist = itemARepository.existsByFurnitureAndAssigment(exist, assigmentRepository.findTopByOrderByIdDesc());
 
         if(ifexist){
 
             Assigment lastAssigment = assigmentRepository.findTopByOrderByIdDesc();
-            ProjectList update = projecListRepository.findByProject_IdAndAssigment(exist.getId(), lastAssigment);
+            ItemAssigment update = itemARepository.findByFurniture_IdAndAssigment(exist.getId(), lastAssigment);
             update.setQuantityItemAssigment(update.getQuantityItemAssigment()+1);
-            lastAssigment.setTotalPrice(lastAssigment.getTotalPrice() + update.getProject().getBasePrice());
-            projecListRepository.save(update);
+            lastAssigment.setTotalPrice(lastAssigment.getTotalPrice() + update.getFurniture().getBasePrice());
+            itemARepository.save(update);
 
 
         }
         else{
             Long lastId = assigmentRepository.findTopByOrderByIdDesc().getId();
             Assigment lastAssigment = assigmentRepository.findTopByOrderByIdDesc();
-            lastAssigment.setTotalPrice(lastAssigment.getTotalPrice() + item.getProject().getBasePrice());
+            lastAssigment.setTotalPrice(lastAssigment.getTotalPrice() + item.getFurniture().getBasePrice());
 
             item.setData(LocalDate.now());
             item.setQuantityItemAssigment(1);
             item.setAssigment(assigmentRepository.findTopById(lastId));
-            projecListRepository.save(item);
+            itemARepository.save(item);
         }
 
 
 
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    private ResponseEntity createJob(@RequestBody ProjectList item, Assigment assigment) {
-        assigment.setInCart(true);
-        assigment.setApproved(false);
-        assigment.setTotalPrice(item.getProject().getBasePrice());
-        assigment.setCreationDate(LocalDate.now());
-        List<ProjectList> items = Arrays.asList(item);
-        assigment.setItemAssigment(items);
-
-        item.setData(LocalDate.now());
-        item.setQuantityItemAssigment(1);
-        item.setAssigment(assigment);
-        assigmentRepository.save(assigment);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -129,8 +135,8 @@ public class AssigmentApi {
         }
     }
 
-    @PutMapping("/end")
-    public ResponseEntity endJob(@RequestParam("assigment") Long assigment) {
+    @PutMapping("/end/{assigment}")
+    public ResponseEntity endJob(@PathVariable("assigment") Long assigment) {
         Assigment endAssigment = assigmentRepository.findById(assigment).orElseThrow(RuntimeException::new);
 
         endAssigment.setApproved(true);
@@ -138,42 +144,29 @@ public class AssigmentApi {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
-    @PutMapping("/totalprice")
-    public ResponseEntity modifiedTotalPrice(@RequestParam("total") double total, @RequestParam("operation") String operation) {
+    @PutMapping("/totalprice/{total}")
+    public Assigment updateAssigmentTotalPlus(@PathVariable("total") double total) {
 
         Assigment findActive = assigmentRepository.findByInCart(true);
+        findActive.setTotalPrice(findActive.getTotalPrice() + total);
 
-        if (operation.equals("minus")){
-            findActive.setTotalPrice(findActive.getTotalPrice() - total);
-            assigmentRepository.save(findActive);
-        }
-        if (operation.equals("plus")){
-            findActive.setTotalPrice(findActive.getTotalPrice() + total);
-            assigmentRepository.save(findActive);
-        }
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return assigmentRepository.save(findActive);
     }
 
-    @PutMapping("/modified")
-    public ResponseEntity modifiedQuantity(@RequestParam("item") Long item, @RequestParam("operation") String operation, @RequestParam("quan") int quan) {
+    @PutMapping("/totalpriceTrash/{total}")
+    public Assigment updateAssigmentTotalTrash(@PathVariable("total") double total) {
 
-        ProjectList items = projecListRepository.findById(item).orElseThrow(RuntimeException::new);
-        if (operation.equals("minus")){
-            items.setQuantityItemAssigment((items.getQuantityItemAssigment() - quan));
-            projecListRepository.save(items);
-        }
-        if (operation.equals("plus")){
-            items.setQuantityItemAssigment((items.getQuantityItemAssigment() + quan));
-            projecListRepository.save(items);
-        }
-        return ResponseEntity.ok(HttpStatus.OK);
+        Assigment findActive = assigmentRepository.findByInCart(true);
+        findActive.setTotalPrice(findActive.getTotalPrice() - total);
+
+
+        return assigmentRepository.save(findActive);
     }
 
 
-    @PutMapping("/customerData")
-    public Assigment setCustomerData(@RequestParam("customerName") String name, @RequestParam("customerLastName") String lastname, @RequestParam("customerPhoneNumber") Integer phonenumber ) {
+    @PutMapping("/customerData/{customerName}/{customerLastName}/{customerPhoneNumber}")
+    public Assigment setCustomerData(@PathVariable("customerName") String name, @PathVariable("customerLastName") String lastname, @PathVariable("customerPhoneNumber") Integer phonenumber ) {
             Assigment lastAssigment = assigmentRepository.findTopByOrderByIdDesc();
             lastAssigment.setCustomerName(name);
             lastAssigment.setCustomerLastName(lastname);
@@ -182,6 +175,15 @@ public class AssigmentApi {
         return assigmentRepository.save(lastAssigment);
     }
 
+    @PutMapping("/totalprice2/{total}")
+    public Assigment updateAssigmentTotalMins(@PathVariable("total") double total) {
+
+        Assigment findActive = assigmentRepository.findByInCart(true);
+        findActive.setTotalPrice(findActive.getTotalPrice() - total);
+
+
+        return assigmentRepository.save(findActive);
+    }
 
     @GetMapping("/details/{id}")
     public Optional<Assigment> getById(@PathVariable("id") Long id) {

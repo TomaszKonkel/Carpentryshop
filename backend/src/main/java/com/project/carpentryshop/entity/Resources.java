@@ -1,6 +1,8 @@
 package com.project.carpentryshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -17,8 +19,8 @@ public class Resources {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "projectList_id")
-    private ProjectList projectList;
+    @JoinColumn(name = "itemAssigment_id")
+    private ItemAssigment itemAssigment;
 
     @ManyToOne
     @JoinColumn(name = "assigment_id")
@@ -27,11 +29,11 @@ public class Resources {
     public Resources() {
     }
 
-    public Resources(Long id, int quantityResources, Product product, ProjectList projectList, Assigment assigment) {
+    public Resources(Long id, int quantityResources, Product product, ItemAssigment itemAssigment, Assigment assigment) {
         this.id = id;
         this.quantityResources = quantityResources;
         this.product = product;
-        this.projectList = projectList;
+        this.itemAssigment = itemAssigment;
         this.assigment = assigment;
     }
 
@@ -60,12 +62,12 @@ public class Resources {
         this.product = product;
     }
 
-    public ProjectList getItemAssigment() {
-        return projectList;
+    public ItemAssigment getItemAssigment() {
+        return itemAssigment;
     }
 
-    public void setItemAssigment(ProjectList projectList) {
-        this.projectList = projectList;
+    public void setItemAssigment(ItemAssigment itemAssigment) {
+        this.itemAssigment = itemAssigment;
     }
 
     @JsonIgnore

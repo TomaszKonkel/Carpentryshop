@@ -39,7 +39,7 @@ const Dashboard = () => {
    setInterval(() => {
      setToday(new Date())
      setLastTenDays(new Date())
-  }, 3600000)
+  }, 60000)
   });
 
   useEffect(() => {
@@ -285,18 +285,15 @@ const Dashboard = () => {
       })
     }
   }
-  const sumTotal = tenAll && tenAll.reduce((sum, tenAll) => {
 
-      sum += tenAll.total;
-
+  const allItems = cartTotal && cartTotal.reduce((sum, allItems) => {
+      sum += allItems.totalPrice;
     return sum;
   }, 0)
-
-  console.log(countTop5)
-
-
-
-
+  const allProjects = assigmentTotal && assigmentTotal.reduce((sum, allProjects) => {
+    sum += allProjects.totalPrice;
+    return sum;
+  }, 0)
 
 
 
@@ -311,7 +308,7 @@ const Dashboard = () => {
               <h4 id="traffic" className="card-title mb-0">
                 Earnings Today
               </h4>
-              <div className="small text-medium-emphasis">{sumTotalAssigment + sumTotalCart} zł</div>
+              <div className="small text-medium-emphasis">{Math.round((sumTotalAssigment + sumTotalCart) * 100) /100} zł</div>
             </CCol>
 
           </CRow>
@@ -390,9 +387,9 @@ const Dashboard = () => {
             <CCol className="mb-sm-2 mb-0" >
               <div className="text-medium-emphasis">Money Earn Progress</div>
               <strong>
-                {sumTotal} zł earn ({Math.ceil(sumTotal/50000 * 100)}%)
+                {Math.round((allItems + allProjects) * 100) /100} zł earn ({Math.ceil(((allItems + allProjects)/50000 * 100) * 100 ) /100}%)
               </strong>
-              <CProgress thin className="mt-2"  value={Math.ceil(sumTotal/50000 * 100)} />
+              <CProgress thin className="mt-2"  value={Math.ceil((allItems + allProjects)/50000 * 100)} />
             </CCol>
 
           </CRow>
