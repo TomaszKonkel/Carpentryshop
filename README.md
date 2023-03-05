@@ -1,5 +1,5 @@
 # Web Application to work with a carpentryshop.
-Offers a full control of selling items. Ability to creating orders with a view of cart. For items from category project(furniture) user have to choose materials to complete them.
+Offers a full control of selling products. Ability to creating orders with a view of cart. To projects from ended orders, user have to choose materials to complete them.
 
 Backend was made in Java (Springboot framework) with MVC standard.
 
@@ -12,11 +12,10 @@ Few example photos of application design
  - Dashboard view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/Dashboard.PNG)
 
-
 - Create Form view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ExampleCreatingForm.PNG)
 
-- Update form view view
+- Update form view 
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ExampleUpdatingForm.PNG)
 
 - Product managment view
@@ -28,5 +27,8 @@ Few example photos of application design
 - Job List view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/JobListView.PNG)
 
-- Dashboard view
+- Job detail and choosing materials view
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/JobDetails.PNG)
+
+- Supply maker view
+![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/SupplyMaker.PNG)
