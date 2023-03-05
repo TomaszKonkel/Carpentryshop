@@ -1,6 +1,9 @@
 package com.project.carpentryshop.entity;
 
+import lombok.Builder;
+
 import javax.persistence.*;
+
 
 @Entity
 public class ElementConstant extends Product{
@@ -13,21 +16,21 @@ public class ElementConstant extends Product{
         private double lengthInCm;
         private double widthInCm;
 
-        private String TYPE = "CONSTANT";
+        private final String TYPE = "CONSTANT";
 
 
     public ElementConstant() {
 
     }
 
-    public ElementConstant(Long id, String name, String description, String photos, ConstantCategory constantCategory, int quantity, float pricePerPiece, double lengthInCm, double widthInCm, String TYPE) {
+    public ElementConstant(Long id, String name, String description, String photos, ConstantCategory constantCategory, int quantity, float pricePerPiece, double lengthInCm, double widthInCm) {
         super(id, name, description, photos);
         this.constantCategory = constantCategory;
         this.quantity = quantity;
         this.pricePerPiece = pricePerPiece;
         this.lengthInCm = lengthInCm;
         this.widthInCm = widthInCm;
-        this.TYPE = TYPE;
+
     }
 
     public ConstantCategory getConstantCategory() {
@@ -72,9 +75,5 @@ public class ElementConstant extends Product{
 
     public String getTYPE() {
         return TYPE;
-    }
-
-    public void setTYPE(String TYPE) {
-        this.TYPE = TYPE;
     }
 }

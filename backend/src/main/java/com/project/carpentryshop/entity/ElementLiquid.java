@@ -1,6 +1,9 @@
 package com.project.carpentryshop.entity;
 
+import lombok.Builder;
+
 import javax.persistence.*;
+
 
 @Entity
 public class ElementLiquid extends Product {
@@ -12,19 +15,19 @@ public class ElementLiquid extends Product {
         private int quantity;
         private double pricePerLiter;
 
-    private String TYPE = "LIQUID";
+    private final String TYPE = "LIQUID";
 
     public ElementLiquid() {
 
     }
 
-    public ElementLiquid(Long id, String name, String description, String photos, LiquidCategory liquidCategory, float capacity, int quantity, double pricePerLiter, String TYPE) {
+    public ElementLiquid(Long id, String name, String description, String photos, LiquidCategory liquidCategory, float capacity, int quantity, double pricePerLiter) {
         super(id, name, description, photos);
         this.liquidCategory = liquidCategory;
         this.capacity = capacity;
         this.quantity = quantity;
         this.pricePerLiter = pricePerLiter;
-        this.TYPE = TYPE;
+
     }
 
     public LiquidCategory getLiquidCategory() {
@@ -61,9 +64,5 @@ public class ElementLiquid extends Product {
 
     public String getTYPE() {
         return TYPE;
-    }
-
-    public void setTYPE(String TYPE) {
-        this.TYPE = TYPE;
     }
 }

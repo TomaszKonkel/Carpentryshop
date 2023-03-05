@@ -24,7 +24,7 @@ public class LiquidApi {
     }
 
     @PostMapping("/addLiquid")
-    public ElementLiquid addProduct(@RequestBody ElementLiquid elementLiquid) {
+    public ElementLiquid addLiquid(@RequestBody ElementLiquid elementLiquid) {
         return elementLiquidRepo.save(elementLiquid);
     }
 

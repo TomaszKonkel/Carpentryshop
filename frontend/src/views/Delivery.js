@@ -6,7 +6,16 @@ import swal from "sweetalert";
 import { useLocation } from "react-router-dom";
 import CIcon from "@coreui/icons-react";
 import {cilDelete, cilMinus, cilPlus, cilTrash, cilX} from "@coreui/icons";
-import {CButton, CFormInput} from "@coreui/react";
+import {
+  CButton,
+  CFormInput,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow
+} from "@coreui/react";
 
 
 
@@ -152,9 +161,9 @@ const Popovers = () => {
                               quantity: quan,
                               types: types
                             });
-                            localStorage.setItem("delivery", JSON.stringify(delivery));
 
                           }
+                          localStorage.setItem("delivery", JSON.stringify(delivery));
                         setQuan(1)
                         }
                       }>Add</Button>
@@ -191,12 +200,35 @@ const Popovers = () => {
                       </div>
                     </Row>
 
-                      {delivery && delivery.map(delivery => (
+
                         <div>
-                          <span key={delivery.id}>{delivery.id} {delivery.quantity} {delivery.name} {delivery.types}</span>
+                          <CTable>
+                            <CTableHead>
+                              <CTableRow>
+                                <CTableHeaderCell scope="col">Id Number</CTableHeaderCell>
+                                <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                                <CTableHeaderCell scope="col">Quantity</CTableHeaderCell>
+                                <CTableHeaderCell scope="col">Types</CTableHeaderCell>
+                              </CTableRow>
+                            </CTableHead>
+                            <CTableBody>
+                              {delivery && delivery.map(delivery => {
+                                return (
+                              <CTableRow>
+
+                                <CTableDataCell>{delivery.id}</CTableDataCell>
+                                <CTableDataCell>{delivery.name}</CTableDataCell>
+                                <CTableDataCell>{delivery.quantity}</CTableDataCell>
+                                <CTableDataCell>{delivery.types}</CTableDataCell>
+
+                              </CTableRow>
+                                )})}
+                            </CTableBody>
+                          </CTable>
+
                         </div>
 
-                      ))}
+
 
 
                   </Row>

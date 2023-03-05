@@ -1,7 +1,6 @@
 package com.project.carpentryshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -32,7 +31,7 @@ public class Assigment {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<ItemAssigment> itemAssigment = new ArrayList<>();
+    private List<ProjectList> itemAssigment = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "assigment",
@@ -44,7 +43,7 @@ public class Assigment {
     public Assigment() {
     }
 
-    public Assigment(Long id, String name, LocalDate creationDate, boolean inCart, boolean approved, double totalPrice, String customerName, String customerLastName, Integer customerPhoneNumber, List<ItemAssigment> itemAssigment, List<Resources> resources) {
+    public Assigment(Long id, String name, LocalDate creationDate, boolean inCart, boolean approved, double totalPrice, String customerName, String customerLastName, Integer customerPhoneNumber, List<ProjectList> itemAssigment, List<Resources> resources) {
         this.id = id;
         this.name = name;
         this.creationDate = creationDate;
@@ -130,11 +129,11 @@ public class Assigment {
         this.customerPhoneNumber = customerPhoneNumber;
     }
 
-    public List<ItemAssigment> getItemAssigment() {
+    public List<ProjectList> getItemAssigment() {
         return itemAssigment;
     }
 
-    public void setItemAssigment(List<ItemAssigment> itemAssigment) {
+    public void setItemAssigment(List<ProjectList> itemAssigment) {
         this.itemAssigment = itemAssigment;
     }
 

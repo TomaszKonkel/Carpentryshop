@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 public interface ResourcesRepository extends CrudRepository<Resources, Long> {
     
 
-    boolean existsByProductIdAndAssigmentIdAndItemAssigment(Long product, Long assigment, ItemAssigment itemAssigment );
+    boolean existsByProductIdAndAssigmentIdAndProjectList(Long product, Long assigment, ProjectList projectList);
 
-    Resources findByProductIdAndAssigmentIdAndItemAssigment(Long product, Long assigment, ItemAssigment itemAssigment);
+    Resources findByProductIdAndAssigmentIdAndProjectList(Long product, Long assigment, ProjectList projectList);
 
     Iterable<Resources> findByAssigmentId(Long id);
 }

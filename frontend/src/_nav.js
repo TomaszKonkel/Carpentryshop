@@ -80,12 +80,7 @@ const _nav = [
     to: '/Delivery',
     icon: <CIcon icon={cilList} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Exchange',
-    to: '/Exchange',
-    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
-  },
+
 
 
 ]
