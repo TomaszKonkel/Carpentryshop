@@ -12,7 +12,7 @@ Few example photos of application design
  - Dashboard view -> The most important selling information (quantity of sold products, best selling and earnings)
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/Dashboard.PNG)
 
-- Create Form view -> Example form of creating products where is porvide a basic information (Present information about product is just sample)
+- Create Form view -> Example form of creating products where is provide a basic information (Present information about product is just sample)
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ExampleCreatingForm.PNG)
 
 - Update form view -> Example form of changing current data
