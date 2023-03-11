@@ -18,7 +18,7 @@ Few example photos of application design
 - Update form view -> Example form of changing current data
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ExampleUpdatingForm.PNG)
 
-- Product managment view -> From this place is avaible to control all products (access to updating and ON/OFF product)
+- Product managment view -> From this place is available to control all products (access to updating and ON/OFF products)
 ![alt text](https://github.com/TomaszKonkel/Carpentryshop/blob/main/photo/ProductManagment.PNG)
 
 - Add to Order view -> List of product with function of adding to order
